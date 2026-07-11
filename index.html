@@ -1,0 +1,920 @@
+<!DOCTYPE html>
+<html lang="hi-en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Student Success Roadmap — Code Karo, Lekin Life Jeena Mat Bhoolo</title>
+<meta name="description" content="Technical students ke liye ek premium motivational roadmap — skills, networking, content creation, emotions aur balance, sab kuch ek jagah.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800;900&family=Inter:wght@400;500;600;700&family=Poppins:ital,wght@0,500;1,500;1,600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+<style>
+/* ============ TOKENS ============ */
+:root{
+  --bg:#070912;
+  --bg2:#0b0f1c;
+  --surface:rgba(255,255,255,.045);
+  --surface-hi:rgba(255,255,255,.08);
+  --border:rgba(255,255,255,.1);
+  --border-hi:rgba(255,255,255,.22);
+  --cyan:#4cc9f0;
+  --purple:#8b6bff;
+  --pink:#ff6fb5;
+  --gold:#ffc164;
+  --green:#5be0a8;
+  --text:#eef1fb;
+  --text-dim:#9aa3bd;
+  --text-dimmer:#6b7290;
+  --font-display:'Outfit',sans-serif;
+  --font-body:'Inter',sans-serif;
+  --font-quote:'Poppins',sans-serif;
+  --radius:20px;
+  --radius-sm:12px;
+  --ease:cubic-bezier(.16,.84,.44,1);
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{
+  background:var(--bg);
+  color:var(--text);
+  font-family:var(--font-body);
+  overflow-x:hidden;
+  line-height:1.6;
+  -webkit-font-smoothing:antialiased;
+}
+::selection{background:var(--purple);color:#fff;}
+::-webkit-scrollbar{width:10px;}
+::-webkit-scrollbar-track{background:var(--bg);}
+::-webkit-scrollbar-thumb{background:linear-gradient(var(--cyan),var(--purple));border-radius:10px;}
+a{color:inherit;text-decoration:none;}
+img,svg{display:block;max-width:100%;}
+button{font-family:inherit;cursor:pointer;border:none;background:none;color:inherit;}
+h1,h2,h3,h4{font-family:var(--font-display);letter-spacing:-0.02em;}
+.container{max-width:1280px;margin:0 auto;padding:0 24px;}
+:focus-visible{outline:2px solid var(--cyan);outline-offset:3px;border-radius:6px;}
+@media(prefers-reduced-motion:reduce){*{animation-duration:.01ms !important;animation-iteration-count:1 !important;transition-duration:.01ms !important;scroll-behavior:auto !important;}}
+
+/* ============ BACKDROP LAYERS ============ */
+.bg-gradient{position:fixed;inset:0;z-index:-3;
+  background:
+    radial-gradient(ellipse 900px 700px at 15% -5%, rgba(139,107,255,.22), transparent 60%),
+    radial-gradient(ellipse 900px 700px at 90% 10%, rgba(76,201,240,.16), transparent 55%),
+    radial-gradient(ellipse 800px 800px at 50% 105%, rgba(255,111,181,.12), transparent 55%),
+    var(--bg);
+}
+.bg-noise{position:fixed;inset:0;z-index:-2;opacity:.035;pointer-events:none;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+#icon-field{position:fixed;inset:0;z-index:-1;overflow:hidden;pointer-events:none;}
+.float-icon{position:absolute;color:var(--text-dimmer);opacity:.16;font-size:22px;animation:floatIcon linear infinite;will-change:transform;}
+@keyframes floatIcon{
+  0%{transform:translate(0,0) rotate(0deg);}
+  50%{transform:translate(18px,-26px) rotate(12deg);}
+  100%{transform:translate(0,0) rotate(0deg);}
+}
+.cursor-glow{position:fixed;width:420px;height:420px;border-radius:50%;pointer-events:none;z-index:0;
+  background:radial-gradient(circle,rgba(139,107,255,.10),transparent 70%);
+  transform:translate(-50%,-50%);transition:left .12s linear,top .12s linear;left:50%;top:50%;}
+
+/* ============ LOADER ============ */
+#loader{position:fixed;inset:0;background:var(--bg);z-index:9999;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:18px;transition:opacity .6s var(--ease),visibility .6s;}
+#loader.hide{opacity:0;visibility:hidden;}
+.loader-wheel{width:64px;height:64px;border-radius:50%;border:3px solid rgba(255,255,255,.08);border-top-color:var(--cyan);border-right-color:var(--purple);animation:spin 1s linear infinite;}
+@keyframes spin{to{transform:rotate(360deg);}}
+.loader-text{font-family:var(--font-display);font-weight:600;color:var(--text-dim);letter-spacing:.05em;font-size:14px;}
+#progress-bar{position:fixed;top:0;left:0;height:3px;background:linear-gradient(90deg,var(--cyan),var(--purple),var(--pink));z-index:9998;width:0%;transition:width .1s;}
+
+/* ============ NAV ============ */
+header{position:fixed;top:0;left:0;right:0;z-index:500;padding:16px 0;transition:all .35s var(--ease);}
+header.scrolled{padding:10px 0;}
+.nav-inner{display:flex;align-items:center;justify-content:space-between;
+  background:rgba(10,13,25,.55);backdrop-filter:blur(18px) saturate(150%);-webkit-backdrop-filter:blur(18px) saturate(150%);
+  border:1px solid var(--border);border-radius:999px;padding:10px 12px 10px 22px;
+  box-shadow:0 8px 30px rgba(0,0,0,.35);}
+.logo{display:flex;align-items:center;gap:10px;font-family:var(--font-display);font-weight:700;font-size:17px;}
+.logo-mark{width:34px;height:34px;border-radius:10px;background:conic-gradient(from 90deg,var(--cyan),var(--purple),var(--pink),var(--cyan));display:flex;align-items:center;justify-content:center;font-size:15px;animation:spin 8s linear infinite;}
+.logo-mark i{animation:spin 8s linear infinite reverse;}
+nav ul{display:flex;gap:6px;list-style:none;}
+nav ul li a{position:relative;padding:10px 16px;font-size:14.5px;font-weight:500;color:var(--text-dim);border-radius:999px;transition:color .25s;}
+nav ul li a::after{content:'';position:absolute;left:16px;right:16px;bottom:6px;height:2px;background:linear-gradient(90deg,var(--cyan),var(--purple));transform:scaleX(0);transform-origin:left;transition:transform .3s var(--ease);}
+nav ul li a:hover{color:var(--text);}
+nav ul li a:hover::after{transform:scaleX(1);}
+.nav-cta{display:flex;align-items:center;gap:10px;}
+.hamburger{display:none;width:40px;height:40px;border-radius:10px;background:var(--surface);border:1px solid var(--border);align-items:center;justify-content:center;font-size:16px;}
+.mobile-menu{position:fixed;top:80px;left:16px;right:16px;background:rgba(10,13,25,.92);backdrop-filter:blur(20px);border:1px solid var(--border);border-radius:18px;padding:14px;display:none;flex-direction:column;gap:4px;z-index:499;box-shadow:0 20px 50px rgba(0,0,0,.5);}
+.mobile-menu.open{display:flex;}
+.mobile-menu a{padding:14px 16px;border-radius:12px;font-weight:500;color:var(--text-dim);}
+.mobile-menu a:hover{background:var(--surface);color:var(--text);}
+
+/* ============ BUTTONS ============ */
+.btn{display:inline-flex;align-items:center;gap:9px;padding:14px 26px;border-radius:999px;font-weight:600;font-size:14.5px;font-family:var(--font-display);transition:all .3s var(--ease);white-space:nowrap;}
+.btn-primary{background:linear-gradient(135deg,var(--cyan),var(--purple));color:#050710;box-shadow:0 8px 24px rgba(139,107,255,.35);}
+.btn-primary:hover{transform:translateY(-3px);box-shadow:0 14px 32px rgba(139,107,255,.5);}
+.btn-ghost{background:var(--surface);border:1px solid var(--border-hi);color:var(--text);}
+.btn-ghost:hover{background:var(--surface-hi);transform:translateY(-3px);}
+.btn-ripple{position:relative;overflow:hidden;}
+.ripple{position:absolute;border-radius:50%;background:rgba(255,255,255,.5);transform:scale(0);animation:rippleAnim .6s ease-out;pointer-events:none;}
+@keyframes rippleAnim{to{transform:scale(3);opacity:0;}}
+
+/* ============ SECTION SHELL ============ */
+section{position:relative;padding:120px 0;}
+@media(max-width:700px){section{padding:80px 0;}}
+.eyebrow{display:inline-flex;align-items:center;gap:8px;font-size:12.5px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--cyan);margin-bottom:18px;}
+.eyebrow::before{content:'';width:22px;height:2px;background:linear-gradient(90deg,var(--cyan),var(--purple));border-radius:2px;}
+.section-title{font-size:clamp(28px,4.4vw,46px);font-weight:800;line-height:1.15;margin-bottom:16px;}
+.section-sub{color:var(--text-dim);font-size:17px;max-width:640px;margin-bottom:56px;}
+.grad-text{background:linear-gradient(120deg,var(--cyan),var(--purple) 55%,var(--pink));-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;}
+.reveal{opacity:0;transform:translateY(36px);transition:opacity .8s var(--ease),transform .8s var(--ease);}
+.reveal.in{opacity:1;transform:translateY(0);}
+
+/* ============ HERO ============ */
+.hero{min-height:100vh;display:flex;align-items:center;padding-top:140px;position:relative;}
+.hero-grid{display:grid;grid-template-columns:1.05fr .95fr;gap:50px;align-items:center;}
+@media(max-width:960px){.hero-grid{grid-template-columns:1fr;}}
+.hero-badge{display:inline-flex;align-items:center;gap:8px;padding:8px 16px;border-radius:999px;background:var(--surface);border:1px solid var(--border);font-size:13px;color:var(--text-dim);margin-bottom:26px;}
+.hero-badge .dot{width:7px;height:7px;border-radius:50%;background:var(--green);box-shadow:0 0 8px var(--green);animation:pulse 1.8s infinite;}
+@keyframes pulse{0%,100%{opacity:1;}50%{opacity:.3;}}
+.hero h1{font-size:clamp(38px,6vw,68px);font-weight:900;line-height:1.08;margin-bottom:22px;}
+.hero h1 .line2{display:block;}
+.typed-cursor{display:inline-block;width:3px;background:var(--cyan);margin-left:2px;animation:blink 1s steps(1) infinite;}
+@keyframes blink{50%{opacity:0;}}
+.hero p.lead{font-size:18px;color:var(--text-dim);max-width:560px;margin-bottom:36px;}
+.hero-actions{display:flex;gap:16px;flex-wrap:wrap;margin-bottom:56px;}
+.scroll-hint{display:flex;align-items:center;gap:10px;color:var(--text-dimmer);font-size:13px;}
+.scroll-hint .mouse{width:22px;height:34px;border:2px solid var(--text-dimmer);border-radius:12px;position:relative;}
+.scroll-hint .mouse::after{content:'';position:absolute;top:6px;left:50%;transform:translateX(-50%);width:3px;height:7px;border-radius:2px;background:var(--cyan);animation:scrollDot 1.6s infinite;}
+@keyframes scrollDot{0%{opacity:1;top:6px;}80%{opacity:0;top:18px;}100%{opacity:0;top:6px;}}
+
+/* signature: life balance wheel */
+.wheel-wrap{position:relative;display:flex;align-items:center;justify-content:center;aspect-ratio:1;}
+.wheel-ring{position:absolute;border-radius:50%;border:1px solid var(--border);}
+.ring-1{inset:0;animation:spin 40s linear infinite;}
+.ring-2{inset:12%;animation:spin 30s linear infinite reverse;border-style:dashed;opacity:.5;}
+.ring-3{inset:24%;background:conic-gradient(from 0deg,rgba(76,201,240,.14),rgba(139,107,255,.14),rgba(255,111,181,.14),rgba(76,201,240,.14));animation:spin 24s linear infinite;filter:blur(1px);}
+.wheel-core{position:relative;width:44%;aspect-ratio:1;border-radius:50%;background:rgba(10,13,25,.6);backdrop-filter:blur(10px);border:1px solid var(--border-hi);display:flex;align-items:center;justify-content:center;text-align:center;box-shadow:0 0 60px rgba(139,107,255,.25),inset 0 0 40px rgba(76,201,240,.08);z-index:2;}
+.wheel-core span{font-family:var(--font-display);font-weight:700;font-size:15px;color:var(--text);}
+.wheel-core small{display:block;color:var(--text-dim);font-size:11px;font-weight:400;margin-top:4px;}
+.spoke{position:absolute;display:flex;flex-direction:column;align-items:center;gap:6px;font-size:11.5px;font-weight:600;color:var(--text-dim);text-align:center;width:88px;}
+.spoke i{width:38px;height:38px;border-radius:50%;background:var(--surface);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;font-size:15px;color:var(--cyan);box-shadow:0 0 0 rgba(76,201,240,0);transition:box-shadow .4s;}
+.spoke.active i{box-shadow:0 0 22px rgba(76,201,240,.55);color:#fff;background:linear-gradient(135deg,var(--cyan),var(--purple));}
+@media(max-width:960px){.wheel-wrap{max-width:380px;margin:0 auto;}.spoke{width:64px;font-size:10px;}}
+@media(max-width:500px){.wheel-wrap{transform:scale(.82);}}
+
+/* ============ COUNTERS ============ */
+.counters{display:grid;grid-template-columns:repeat(6,1fr);gap:2px;background:var(--border);border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;}
+@media(max-width:900px){.counters{grid-template-columns:repeat(3,1fr);}}
+@media(max-width:500px){.counters{grid-template-columns:repeat(2,1fr);}}
+.counter-cell{background:var(--bg2);padding:34px 16px;text-align:center;}
+.counter-num{font-family:var(--font-display);font-weight:800;font-size:clamp(26px,3.4vw,38px);background:linear-gradient(135deg,var(--cyan),var(--purple));-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;}
+.counter-label{color:var(--text-dim);font-size:12.5px;margin-top:6px;text-transform:uppercase;letter-spacing:.06em;}
+
+/* ============ TOPIC CARDS ============ */
+.topics-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(340px,1fr));gap:22px;}
+.topic-card{position:relative;background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:30px;overflow:hidden;transition:transform .4s var(--ease),border-color .4s;}
+.topic-card::before{content:'';position:absolute;inset:0;border-radius:var(--radius);padding:1px;background:linear-gradient(135deg,var(--card-a,var(--cyan)),transparent 40%,var(--card-b,var(--purple)));-webkit-mask:linear-gradient(#fff 0 0) content-box,linear-gradient(#fff 0 0);-webkit-mask-composite:xor;mask-composite:exclude;opacity:0;transition:opacity .4s;pointer-events:none;}
+.topic-card:hover{transform:translateY(-6px);border-color:transparent;}
+.topic-card:hover::before{opacity:1;}
+.topic-num{font-family:var(--font-display);font-size:12px;color:var(--text-dimmer);font-weight:700;letter-spacing:.1em;margin-bottom:14px;}
+.topic-icon{width:52px;height:52px;border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:22px;margin-bottom:18px;background:linear-gradient(135deg,var(--card-a,var(--cyan)),var(--card-b,var(--purple)));color:#050710;}
+.topic-card h3{font-size:20px;font-weight:700;margin-bottom:8px;}
+.topic-tag{color:var(--card-a,var(--cyan));font-size:12.5px;font-weight:600;margin-bottom:14px;display:block;}
+.topic-points{list-style:none;margin:14px 0;display:flex;flex-direction:column;gap:8px;}
+.topic-points li{font-size:13.5px;color:var(--text-dim);padding-left:20px;position:relative;}
+.topic-points li::before{content:'\f00c';font-family:'Font Awesome 6 Free';font-weight:900;position:absolute;left:0;top:2px;font-size:10px;color:var(--card-a,var(--cyan));}
+.topic-example{background:rgba(0,0,0,.25);border-left:2px solid var(--card-a,var(--cyan));border-radius:8px;padding:12px 14px;font-size:13px;color:var(--text-dim);margin:16px 0;}
+.topic-example b{color:var(--text);font-weight:600;}
+.topic-quote{font-family:var(--font-quote);font-style:italic;font-size:14.5px;color:var(--text);margin:16px 0 12px;line-height:1.6;}
+.topic-take{display:flex;align-items:flex-start;gap:8px;font-size:12.5px;color:var(--card-a,var(--cyan));font-weight:600;padding-top:14px;border-top:1px solid var(--border);}
+
+/* ============ TIMELINE ============ */
+.timeline{position:relative;max-width:820px;margin:0 auto;}
+.timeline::before{content:'';position:absolute;left:26px;top:0;bottom:0;width:2px;background:linear-gradient(var(--cyan),var(--purple),var(--pink));}
+@media(min-width:760px){.timeline::before{left:50%;transform:translateX(-1px);}}
+.t-item{position:relative;padding:0 0 40px 66px;}
+@media(min-width:760px){.t-item{width:50%;padding:0 0 50px 0;}
+  .t-item:nth-child(odd){padding-right:50px;text-align:right;margin-right:50%;}
+  .t-item:nth-child(even){padding-left:50px;margin-left:50%;}}
+.t-dot{position:absolute;left:12px;top:2px;width:30px;height:30px;border-radius:50%;background:var(--bg2);border:2px solid var(--cyan);display:flex;align-items:center;justify-content:center;font-size:12px;z-index:2;}
+@media(min-width:760px){.t-item:nth-child(odd) .t-dot{right:-15px;left:auto;}
+  .t-item:nth-child(even) .t-dot{left:-15px;}}
+.t-card{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:18px 20px;}
+.t-time{color:var(--gold);font-size:12px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;}
+.t-card h4{margin:6px 0 4px;font-size:16px;}
+.t-card p{font-size:13.5px;color:var(--text-dim);}
+
+/* ============ STRESS RELIEF ============ */
+.crisis-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:14px;margin-bottom:60px;}
+.crisis-chip{background:rgba(255,111,181,.06);border:1px solid rgba(255,111,181,.25);border-radius:14px;padding:16px 18px;font-size:14px;color:var(--text-dim);display:flex;align-items:center;gap:10px;}
+.crisis-chip i{color:var(--pink);}
+.recovery-steps{counter-reset:step;display:flex;flex-direction:column;gap:16px;max-width:800px;}
+.recovery-step{counter-increment:step;position:relative;background:var(--surface);border:1px solid var(--border);border-radius:16px;padding:22px 24px 22px 76px;}
+.recovery-step::before{content:counter(step);position:absolute;left:20px;top:22px;width:38px;height:38px;border-radius:50%;background:linear-gradient(135deg,var(--cyan),var(--purple));color:#050710;font-family:var(--font-display);font-weight:800;display:flex;align-items:center;justify-content:center;font-size:15px;}
+.recovery-step h4{font-size:16.5px;margin-bottom:6px;}
+.recovery-step p{font-size:14px;color:var(--text-dim);}
+.hope-banner{margin-top:50px;text-align:center;padding:44px 24px;border-radius:24px;background:radial-gradient(ellipse at center,rgba(139,107,255,.14),transparent 70%);border:1px solid var(--border);}
+.hope-banner h3{font-size:clamp(22px,3vw,32px);margin-bottom:10px;}
+.hope-banner p{color:var(--text-dim);max-width:560px;margin:0 auto;}
+
+/* ============ QUOTE SLIDER ============ */
+.quote-slider{position:relative;max-width:780px;margin:0 auto;text-align:center;min-height:180px;display:flex;align-items:center;justify-content:center;}
+.quote-slide{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;opacity:0;transform:translateY(14px);transition:opacity .5s var(--ease),transform .5s var(--ease);pointer-events:none;padding:0 10px;}
+.quote-slide.active{opacity:1;transform:translateY(0);pointer-events:auto;}
+.quote-slide p{font-family:var(--font-quote);font-style:italic;font-weight:500;font-size:clamp(19px,3vw,28px);line-height:1.5;}
+.quote-slide .qmark{color:var(--purple);font-size:34px;display:block;margin-bottom:6px;opacity:.6;}
+.quote-dots{display:flex;justify-content:center;gap:8px;margin-top:40px;flex-wrap:wrap;max-width:260px;margin-left:auto;margin-right:auto;}
+.qdot{width:7px;height:7px;border-radius:50%;background:var(--border-hi);transition:all .3s;}
+.qdot.active{background:linear-gradient(90deg,var(--cyan),var(--purple));width:22px;border-radius:4px;}
+
+/* ============ HABITS ============ */
+.habits-tabs{display:flex;gap:10px;margin-bottom:32px;flex-wrap:wrap;}
+.habit-tab{padding:10px 20px;border-radius:999px;background:var(--surface);border:1px solid var(--border);font-size:13.5px;font-weight:600;color:var(--text-dim);}
+.habit-tab.active{background:linear-gradient(135deg,var(--cyan),var(--purple));color:#050710;border-color:transparent;}
+.habit-panel{display:none;}
+.habit-panel.active{display:grid;grid-template-columns:1fr 1fr;gap:16px;}
+@media(max-width:700px){.habit-panel.active{grid-template-columns:1fr;}}
+.habit-col h4{font-size:14px;margin-bottom:14px;display:flex;align-items:center;gap:8px;}
+.habit-col ul{list-style:none;display:flex;flex-direction:column;gap:10px;}
+.habit-col li{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:12px 14px;font-size:13.5px;color:var(--text-dim);}
+.habit-col.dos h4{color:var(--green);}
+.habit-col.donts h4{color:var(--pink);}
+
+/* ============ SUCCESS FORMULA ============ */
+.formula-row{display:flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:14px;}
+.formula-chip{background:var(--surface);border:1px solid var(--border);border-radius:16px;padding:18px 22px;text-align:center;min-width:120px;}
+.formula-chip i{font-size:22px;color:var(--cyan);margin-bottom:8px;}
+.formula-chip span{display:block;font-size:12.5px;font-weight:600;color:var(--text-dim);}
+.formula-op{font-family:var(--font-display);font-size:24px;color:var(--text-dimmer);font-weight:300;}
+.formula-eq{background:linear-gradient(135deg,var(--cyan),var(--purple));border-radius:20px;padding:22px 30px;font-family:var(--font-display);font-weight:800;font-size:20px;color:#050710;box-shadow:0 12px 34px rgba(139,107,255,.35);}
+
+/* ============ TRAINER ============ */
+.trainer-card{display:grid;grid-template-columns:220px 1fr;gap:36px;align-items:center;background:var(--surface);border:1px solid var(--border);border-radius:28px;padding:40px;position:relative;overflow:hidden;}
+@media(max-width:700px){.trainer-card{grid-template-columns:1fr;text-align:center;}}
+.trainer-card::before{content:'';position:absolute;top:-40%;right:-10%;width:400px;height:400px;background:radial-gradient(circle,rgba(139,107,255,.18),transparent 70%);}
+.trainer-avatar{width:200px;height:200px;border-radius:26px;background:linear-gradient(135deg,var(--cyan),var(--purple));display:flex;align-items:center;justify-content:center;font-size:70px;font-family:var(--font-display);font-weight:800;color:#050710;margin:0 auto;box-shadow:0 20px 50px rgba(139,107,255,.3);}
+.trainer-name{font-size:26px;margin-bottom:4px;}
+.trainer-role{color:var(--cyan);font-weight:600;font-size:14px;margin-bottom:16px;}
+.trainer-skills{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:22px;}
+@media(max-width:700px){.trainer-skills{justify-content:center;}}
+.skill-pill{background:rgba(255,255,255,.06);border:1px solid var(--border);padding:6px 14px;border-radius:999px;font-size:12.5px;color:var(--text-dim);}
+.trainer-socials{display:flex;gap:12px;flex-wrap:wrap;}
+@media(max-width:700px){.trainer-socials{justify-content:center;}}
+.social-btn{width:42px;height:42px;border-radius:12px;background:var(--surface);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;font-size:16px;transition:all .3s;}
+.social-btn:hover{transform:translateY(-4px);background:linear-gradient(135deg,var(--cyan),var(--purple));color:#050710;}
+
+/* ============ CONTACT ============ */
+.contact-wrap{display:grid;grid-template-columns:.9fr 1.1fr;gap:50px;}
+@media(max-width:900px){.contact-wrap{grid-template-columns:1fr;}}
+.contact-side .side-item{display:flex;gap:14px;margin-bottom:24px;}
+.side-icon{width:44px;height:44px;border-radius:12px;background:var(--surface);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;color:var(--cyan);flex-shrink:0;}
+.side-item h5{font-size:14.5px;margin-bottom:2px;}
+.side-item p{font-size:13px;color:var(--text-dim);}
+form{display:flex;flex-direction:column;gap:22px;}
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:18px;}
+@media(max-width:560px){.form-row{grid-template-columns:1fr;}}
+.field{position:relative;}
+.field input,.field select,.field textarea{width:100%;background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:18px 16px 8px;color:var(--text);font-family:inherit;font-size:14.5px;transition:border-color .3s;}
+.field textarea{min-height:110px;resize:vertical;}
+.field input:focus,.field select:focus,.field textarea:focus{border-color:var(--cyan);}
+.field label{position:absolute;left:16px;top:17px;color:var(--text-dimmer);font-size:14.5px;pointer-events:none;transition:all .2s var(--ease);}
+.field input:focus + label,.field input:not(:placeholder-shown) + label,
+.field textarea:focus + label,.field textarea:not(:placeholder-shown) + label,
+.field.filled label{top:7px;font-size:11px;color:var(--cyan);}
+.field .err{color:var(--pink);font-size:12px;margin-top:6px;display:none;}
+.field.invalid input,.field.invalid textarea{border-color:var(--pink);}
+.field.invalid .err{display:block;}
+.form-success{display:none;text-align:center;padding:40px 20px;}
+.form-success.show{display:block;}
+.form-success i{font-size:40px;color:var(--green);margin-bottom:14px;}
+
+/* ============ FOOTER ============ */
+footer{padding:70px 0 30px;border-top:1px solid var(--border);}
+.footer-grid{display:grid;grid-template-columns:1.4fr 1fr 1fr 1fr;gap:40px;margin-bottom:50px;}
+@media(max-width:800px){.footer-grid{grid-template-columns:1fr 1fr;}}
+@media(max-width:480px){.footer-grid{grid-template-columns:1fr;}}
+.footer-grid h5{font-size:13.5px;margin-bottom:16px;color:var(--text-dim);text-transform:uppercase;letter-spacing:.06em;}
+.footer-grid ul{list-style:none;display:flex;flex-direction:column;gap:10px;}
+.footer-grid ul a{font-size:13.5px;color:var(--text-dim);}
+.footer-grid ul a:hover{color:var(--cyan);}
+.footer-msg{font-family:var(--font-quote);font-style:italic;font-size:15px;color:var(--text-dim);margin-bottom:16px;}
+.footer-bottom{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:14px;padding-top:26px;border-top:1px solid var(--border);font-size:12.5px;color:var(--text-dimmer);}
+#toTop{position:fixed;bottom:26px;right:26px;width:48px;height:48px;border-radius:14px;background:var(--surface);border:1px solid var(--border-hi);backdrop-filter:blur(10px);display:flex;align-items:center;justify-content:center;z-index:400;opacity:0;visibility:hidden;transition:all .3s;}
+#toTop.show{opacity:1;visibility:visible;}
+#toTop:hover{background:linear-gradient(135deg,var(--cyan),var(--purple));color:#050710;transform:translateY(-4px);}
+</style>
+</head>
+<body>
+
+<div class="bg-gradient"></div>
+<div class="bg-noise"></div>
+<div id="icon-field"></div>
+<div class="cursor-glow" id="cursorGlow"></div>
+
+<div id="progress-bar"></div>
+<div id="loader"><div class="loader-wheel"></div><div class="loader-text">TAYYAAR HO RAHA HAI...</div></div>
+
+<!-- ============ HEADER ============ -->
+<header id="siteHeader">
+  <div class="container nav-inner">
+    <div class="logo"><div class="logo-mark"><i class="fa-solid fa-bolt"></i></div>Student Success Roadmap</div>
+    <nav>
+      <ul>
+        <li><a href="#home">Home</a></li>
+        <li><a href="#topics">Topics</a></li>
+        <li><a href="#mindset">Mindset</a></li>
+        <li><a href="#growth">Growth</a></li>
+        <li><a href="#contact">Contact</a></li>
+      </ul>
+    </nav>
+    <div class="nav-cta">
+      <a href="#topics" class="btn btn-primary btn-ripple" style="padding:10px 20px;font-size:13.5px;"><i class="fa-solid fa-rocket"></i>Start Reading</a>
+      <button class="hamburger" id="hamburger" aria-label="Menu"><i class="fa-solid fa-bars"></i></button>
+    </div>
+  </div>
+</header>
+<div class="mobile-menu" id="mobileMenu">
+  <a href="#home">Home</a><a href="#topics">Topics</a><a href="#mindset">Mindset</a>
+  <a href="#growth">Growth</a><a href="#contact">Contact</a>
+</div>
+
+<!-- ============ HERO ============ -->
+<section class="hero" id="home">
+  <div class="container hero-grid">
+    <div>
+      <div class="hero-badge reveal in"><span class="dot"></span>Engineering • BCA • MCA • B.Tech • M.Tech • Diploma</div>
+      <h1><span style="font-size: 40px;" id="typedHeading"></span><span class="typed-cursor">&nbsp;</span></h1>
+      <p class="lead reveal">Placement, CGPA, comparison, aur pressure — sab important hai. Lekin tumhari <b style="color:var(--text)">skills, dosti, health aur emotions</b> bhi utne hi zaroori hain. Ye page tumhe wahi balance sikhayega jo college kabhi nahi sikhata.</p>
+      <div class="hero-actions reveal">
+        <a href="#topics" class="btn btn-primary btn-ripple"><i class="fa-solid fa-book-open"></i>Start Reading</a>
+        <a href="#growth" class="btn btn-ghost btn-ripple"><i class="fa-solid fa-arrow-trend-up"></i>Build My Future</a>
+      </div>
+      <div class="scroll-hint reveal"><div class="mouse"></div>Scroll karke apni roadmap dekho</div>
+    </div>
+    <div class="wheel-wrap reveal">
+      <div class="wheel-ring ring-1"></div>
+      <div class="wheel-ring ring-2"></div>
+      <div class="wheel-ring ring-3"></div>
+      <div class="wheel-core"><span>LIFE<br>BALANCE<small>Har spoke zaroori hai</small></span></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ COUNTERS ============ -->
+<section style="padding:0 0 100px;">
+  <div class="container">
+    <div class="counters reveal">
+      <div class="counter-cell"><div class="counter-num" data-target="120">0</div><div class="counter-label">Skills Roadmap</div></div>
+      <div class="counter-cell"><div class="counter-num" data-target="45">0</div><div class="counter-label">Real Projects</div></div>
+      <div class="counter-cell"><div class="counter-num" data-target="500">0</div><div class="counter-label">Friends Network</div></div>
+      <div class="counter-cell"><div class="counter-num" data-target="80">0</div><div class="counter-label">Networking Events</div></div>
+      <div class="counter-cell"><div class="counter-num" data-target="365">0</div><div class="counter-label">Days Consistency</div></div>
+      <div class="counter-cell"><div class="counter-num" data-target="100">0</div><div class="counter-label">% Growth Mindset</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ TOPICS ============ -->
+<section id="topics">
+  <div class="container">
+    <span class="eyebrow">12 Pillars</span>
+    <h2 class="section-title reveal">Ek Achhe Tech Career Ke <span class="grad-text">12 Pillars</span></h2>
+    <p class="section-sub reveal">Sirf coding kaafi nahi hai. Ye 12 cheezein milke tumhari real success define karti hain — technical se leke emotional tak.</p>
+    <div class="topics-grid" id="topicsGrid"></div>
+  </div>
+</section>
+
+<!-- ============ LIFE BALANCE TIMELINE ============ -->
+<section id="growth">
+  <div class="container">
+    <span class="eyebrow">Daily Rhythm</span>
+    <h2 class="section-title reveal">Ek <span class="grad-text">Balanced Din</span> Kaisa Dikhta Hai</h2>
+    <p class="section-sub reveal">Balance ka matlab sab kuch equal karna nahi — sab kuch apni jagah pe rakhna hai.</p>
+    <div class="timeline" id="timelineWrap"></div>
+  </div>
+</section>
+
+<!-- ============ STRESS RELIEF / RECOVERY ============ -->
+<section id="mindset">
+  <div class="container">
+    <span class="eyebrow">Jab Sab Kuch Bigad Jaye</span>
+    <h2 class="section-title reveal">"If Everything Goes Wrong…" <span class="grad-text">To Ab Kya?</span></h2>
+    <p class="section-sub reveal">Failed interview, backlog, breakup, no job, family pressure — kabhi na kabhi ye sab hota hai. Iska matlab tumhara end nahi, sirf ek tough chapter hai.</p>
+    <div class="crisis-grid reveal">
+      <div class="crisis-chip"><i class="fa-solid fa-face-frown"></i>Failed Interview</div>
+      <div class="crisis-chip"><i class="fa-solid fa-briefcase"></i>No Internship</div>
+      <div class="crisis-chip"><i class="fa-solid fa-code"></i>Backlogs</div>
+      <div class="crisis-chip"><i class="fa-solid fa-heart-crack"></i>Breakup</div>
+      <div class="crisis-chip"><i class="fa-solid fa-wallet"></i>Money Problems</div>
+      <div class="crisis-chip"><i class="fa-solid fa-house-chimney-crack"></i>Family Pressure</div>
+      <div class="crisis-chip"><i class="fa-solid fa-user-slash"></i>No Job Yet</div>
+      <div class="crisis-chip"><i class="fa-solid fa-scale-unbalanced"></i>Comparison</div>
+      <div class="crisis-chip"><i class="fa-solid fa-user"></i>Loneliness</div>
+    </div>
+
+    <h3 style="font-size:22px;margin-bottom:22px;" class="reveal">Recovery Roadmap — Step By Step</h3>
+    <div class="recovery-steps" id="recoverySteps"></div>
+
+    <div class="hope-banner reveal">
+      <h3>Ye Feeling <span class="grad-text">Permanent Nahi</span> Hai</h3>
+      <p>Tumne itna kuch already survive kiya hai jo kabhi impossible lagta tha. Ye phase bhi guzrega. Bas ek step, ek din, ek breath — aage badhte raho. Tum akele nahi ho.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ============ QUOTES ============ -->
+<section style="padding-top:60px;">
+  <div class="container">
+    <span class="eyebrow" style="text-align:center;display:flex;justify-content:center;">Daily Dose</span>
+    <h2 class="section-title reveal" style="text-align:center;">Motivation <span class="grad-text">Hinglish Mein</span></h2>
+    <div class="quote-slider" id="quoteSlider"></div>
+    <div class="quote-dots" id="quoteDots"></div>
+  </div>
+</section>
+
+<!-- ============ HABITS ============ -->
+<section>
+  <div class="container">
+    <span class="eyebrow">Student Suggestions</span>
+    <h2 class="section-title reveal">Habits Jo <span class="grad-text">Sab Kuch Badal Dengi</span></h2>
+    <p class="section-sub reveal">Chhote-chhote habits, lambi consistency — yehi asli formula hai.</p>
+    <div class="habits-tabs">
+      <button class="habit-tab active" data-tab="daily">Daily</button>
+      <button class="habit-tab" data-tab="weekly">Weekly</button>
+      <button class="habit-tab" data-tab="monthly">Monthly</button>
+    </div>
+    <div id="habitsPanels"></div>
+  </div>
+</section>
+
+<!-- ============ SUCCESS FORMULA ============ -->
+<section>
+  <div class="container">
+    <span class="eyebrow" style="justify-content:center;display:flex;">The Formula</span>
+    <h2 class="section-title reveal" style="text-align:center;">Success Ka <span class="grad-text">Real Formula</span></h2>
+    <div class="formula-row reveal">
+      <div class="formula-chip"><i class="fa-solid fa-laptop-code"></i><span>Technical Skills</span></div>
+      <div class="formula-op">×</div>
+      <div class="formula-chip"><i class="fa-solid fa-comments"></i><span>Communication</span></div>
+      <div class="formula-op">×</div>
+      <div class="formula-chip"><i class="fa-solid fa-people-group"></i><span>Networking</span></div>
+      <div class="formula-op">×</div>
+      <div class="formula-chip"><i class="fa-solid fa-repeat"></i><span>Consistency</span></div>
+      <div class="formula-op">×</div>
+      <div class="formula-chip"><i class="fa-solid fa-heart-pulse"></i><span>Health</span></div>
+      <div class="formula-op">×</div>
+      <div class="formula-chip"><i class="fa-solid fa-anchor"></i><span>Discipline</span></div>
+      <div class="formula-op">=</div>
+      <div class="formula-eq">SUCCESS 🚀</div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ TRAINER ============ -->
+<section>
+  <div class="container">
+    <span class="eyebrow">Guided By</span>
+    <h2 class="section-title reveal">Tumhara <span class="grad-text">Trainer</span></h2>
+    <div class="trainer-card reveal">
+      <div class="trainer-avatar">RP</div>
+      <div>
+        <h3 class="trainer-name">Ramgopal Prajapati</h3>
+        <div class="trainer-role">Technical Trainer • 2+ Years Experience</div>
+        <p style="color:var(--text-dim);font-size:14.5px;margin-bottom:18px;max-width:520px;">AI, Web Development, Java, Python, Data Science, Cloud aur Power BI sikhata hoon — sirf syllabus nahi, real industry skills ke saath.</p>
+        <div class="trainer-skills">
+          <span class="skill-pill">AI</span><span class="skill-pill">Web Development</span><span class="skill-pill">Java</span>
+          <span class="skill-pill">Python</span><span class="skill-pill">Data Science</span><span class="skill-pill">Cloud</span><span class="skill-pill">Power BI</span>
+        </div>
+        <div class="trainer-socials">
+          <a href="#" class="social-btn" aria-label="GitHub"><i class="fa-brands fa-github"></i></a>
+          <a href="#" class="social-btn" aria-label="LinkedIn"><i class="fa-brands fa-linkedin-in"></i></a>
+          <a href="#" class="social-btn" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a>
+          <a href="#" class="social-btn" aria-label="YouTube"><i class="fa-brands fa-youtube"></i></a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ CONTACT ============ -->
+<section id="contact">
+  <div class="container contact-wrap">
+    <div class="contact-side reveal">
+      <span class="eyebrow">Reach Out</span>
+      <h2 class="section-title" style="font-size:32px;">Koi Query Hai? <span class="grad-text">Poochho</span></h2>
+      <p class="section-sub" style="margin-bottom:32px;">Career confusion ho ya emotional support chahiye — bina hesitate kiye likho.</p>
+      <div class="side-item"><div class="side-icon"><i class="fa-solid fa-envelope"></i></div><div><h5>Email</h5><p>hello@studentsuccess.in</p></div></div>
+      <div class="side-item"><div class="side-icon"><i class="fa-solid fa-location-dot"></i></div><div><h5>Location</h5><p>Vijay Nagar, Indore, MP</p></div></div>
+      <div class="side-item"><div class="side-icon"><i class="fa-solid fa-clock"></i></div><div><h5>Response Time</h5><p>24-48 hours</p></div></div>
+    </div>
+    <div>
+      <form id="queryForm" novalidate>
+        <div class="form-row">
+          <div class="field"><input type="text" id="fname" placeholder=" " required><label for="fname">Naam</label><span class="err">Naam likhna zaroori hai</span></div>
+          <div class="field"><input type="email" id="femail" placeholder=" " required><label for="femail">Email</label><span class="err">Valid email daalo</span></div>
+        </div>
+        <div class="form-row">
+          <div class="field"><input type="text" id="fcollege" placeholder=" " required><label for="fcollege">College Ka Naam</label><span class="err">College likhna zaroori hai</span></div>
+          <div class="field">
+            <select id="fgoal" required>
+              <option value="" disabled selected></option>
+              <option>Placement Preparation</option>
+              <option>Skill Building</option>
+              <option>Internship</option>
+              <option>Emotional Support</option>
+              <option>Career Guidance</option>
+            </select>
+            <label for="fgoal" class="filled">Current Goal</label>
+          </div>
+        </div>
+        <div class="field"><textarea id="fmsg" placeholder=" " required></textarea><label for="fmsg">Tumhara Message</label><span class="err">Message likho</span></div>
+        <button type="submit" class="btn btn-primary btn-ripple" style="align-self:flex-start;"><i class="fa-solid fa-paper-plane"></i>Query Bhejo</button>
+        <div class="form-success" id="formSuccess"><i class="fa-solid fa-circle-check"></i><h3>Bhej Diya! 🎉</h3><p style="color:var(--text-dim);">Hum jald hi reply karenge. Tab tak consistent raho!</p></div>
+      </form>
+    </div>
+  </div>
+</section>
+
+<!-- ============ FOOTER ============ -->
+<footer>
+  <div class="container">
+    <div class="footer-grid">
+      <div>
+        <div class="logo" style="margin-bottom:16px;"><div class="logo-mark"><i class="fa-solid fa-bolt"></i></div>Student Success Roadmap</div>
+        <p class="footer-msg">"Tumhari journey unique hai... isse kisi se compare mat karo."</p>
+      </div>
+      <div><h5>Quick Links</h5><ul><li><a href="#home">Home</a></li><li><a href="#topics">Topics</a></li><li><a href="#mindset">Mindset</a></li><li><a href="#growth">Growth</a></li></ul></div>
+      <div><h5>Topics</h5><ul><li><a href="#topics">Technical Skills</a></li><li><a href="#topics">Networking</a></li><li><a href="#topics">Emotional Health</a></li><li><a href="#topics">Content Creation</a></li></ul></div>
+      <div><h5>Follow</h5>
+        <div class="trainer-socials">
+          <a href="#" class="social-btn"><i class="fa-brands fa-github"></i></a>
+          <a href="#" class="social-btn"><i class="fa-brands fa-linkedin-in"></i></a>
+          <a href="#" class="social-btn"><i class="fa-brands fa-instagram"></i></a>
+          <a href="#" class="social-btn"><i class="fa-brands fa-youtube"></i></a>
+        </div>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2026 Student Success Roadmap. Made with ❤️ for every technical student.</span>
+      <span>Design & Content by Ram Sir</span>
+    </div>
+  </div>
+</footer>
+
+<button id="toTop" aria-label="Back to top"><i class="fa-solid fa-arrow-up"></i></button>
+
+<script>
+/* ============ LOADER + PROGRESS ============ */
+window.addEventListener('load',()=>{
+  setTimeout(()=>document.getElementById('loader').classList.add('hide'),500);
+});
+window.addEventListener('scroll',()=>{
+  const h=document.documentElement;
+  const pct=(h.scrollTop)/(h.scrollHeight-h.clientHeight)*100;
+  document.getElementById('progress-bar').style.width=pct+'%';
+  document.getElementById('siteHeader').classList.toggle('scrolled',h.scrollTop>30);
+  document.getElementById('toTop').classList.toggle('show',h.scrollTop>500);
+});
+document.getElementById('toTop').addEventListener('click',()=>window.scrollTo({top:0,behavior:'smooth'}));
+
+/* ============ CURSOR GLOW ============ */
+const glow=document.getElementById('cursorGlow');
+window.addEventListener('mousemove',e=>{glow.style.left=e.clientX+'px';glow.style.top=e.clientY+'px';});
+
+/* ============ FLOATING BACKGROUND ICONS ============ */
+const iconList=['fa-brands fa-java','fa-brands fa-python','fa-brands fa-js','fa-brands fa-react','fa-brands fa-html5','fa-brands fa-css3-alt','fa-brands fa-node-js','fa-brands fa-git-alt','fa-brands fa-github','fa-brands fa-docker','fa-solid fa-cloud','fa-solid fa-brain','fa-solid fa-microchip','fa-solid fa-database','fa-solid fa-laptop','fa-solid fa-rocket','fa-solid fa-bullseye','fa-solid fa-book','fa-solid fa-graduation-cap','fa-solid fa-lightbulb','fa-solid fa-code','fa-solid fa-network-wired','fa-brands fa-linkedin','fa-brands fa-youtube','fa-brands fa-instagram','fa-solid fa-message','fa-solid fa-heart','fa-solid fa-mug-hot','fa-solid fa-star'];
+const field=document.getElementById('icon-field');
+const iconCount=window.innerWidth<700?16:30;
+for(let i=0;i<iconCount;i++){
+  const el=document.createElement('i');
+  el.className='float-icon '+iconList[i%iconList.length];
+  el.style.left=Math.random()*100+'%';
+  el.style.top=Math.random()*100+'%';
+  el.style.fontSize=(14+Math.random()*18)+'px';
+  el.style.animationDuration=(10+Math.random()*14)+'s';
+  el.style.animationDelay=(Math.random()*6)+'s';
+  field.appendChild(el);
+}
+
+/* ============ HAMBURGER ============ */
+const hamburger=document.getElementById('hamburger'),mobileMenu=document.getElementById('mobileMenu');
+hamburger.addEventListener('click',()=>mobileMenu.classList.toggle('open'));
+mobileMenu.querySelectorAll('a').forEach(a=>a.addEventListener('click',()=>mobileMenu.classList.remove('open')));
+
+/* ============ TYPING EFFECT ============ */
+const typedTarget=document.getElementById('typedHeading');
+const heroLines=["❤️"];
+let li=0,ci=0,deleting=false;
+function typeLoop(){
+  const full=heroLines[li];
+  if(!deleting){
+    ci++;
+    typedTarget.innerHTML=heroLines.slice(0,li).map(l=>'<span class="line2">'+l+'</span>').join('')+full.slice(0,ci);
+    if(ci===full.length){
+      if(li<heroLines.length-1){li++;ci=0;setTimeout(typeLoop,300);return;}
+      setTimeout(()=>{deleting=true;typeLoop();},2200);return;
+    }
+  }else{
+    typedTarget.innerHTML=heroLines.slice(0,li).map(l=>'<span class="line2">'+l+'</span>').join('')+full.slice(0,ci);
+    ci--;
+    if(ci<0){deleting=false;li=0;ci=0;typedTarget.innerHTML='';setTimeout(typeLoop,400);return;}
+  }
+  setTimeout(typeLoop,deleting?35:65);
+}
+typeLoop();
+
+/* ============ COUNTERS ============ */
+function animateCounters(){
+  document.querySelectorAll('.counter-num').forEach(el=>{
+    const target=+el.dataset.target;let cur=0;
+    const step=Math.max(1,Math.ceil(target/60));
+    const t=setInterval(()=>{cur+=step;if(cur>=target){cur=target;clearInterval(t);}el.textContent=cur;},20);
+  });
+}
+
+/* ============ REVEAL ON SCROLL ============ */
+const io=new IntersectionObserver((entries)=>{
+  entries.forEach(en=>{
+    if(en.isIntersecting){
+      en.target.classList.add('in');
+      if(en.target.querySelector('.counter-num')||en.target.classList.contains('counters')) animateCounters();
+      io.unobserve(en.target);
+    }
+  });
+},{threshold:.15});
+document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
+
+/* ============ WHEEL SPOKES (Hero signature) ============ */
+const spokeData=[
+  {icon:'fa-solid fa-laptop-code',label:'Tech'},
+  {icon:'fa-solid fa-comments',label:'Communication'},
+  {icon:'fa-solid fa-people-group',label:'Networking'},
+  {icon:'fa-solid fa-video',label:'Content'},
+  {icon:'fa-solid fa-graduation-cap',label:'College Life'},
+  {icon:'fa-solid fa-heart-pulse',label:'Emotions'}
+];
+const wheelWrap=document.querySelector('.wheel-wrap');
+spokeData.forEach((s,i)=>{
+  const angle=(i/spokeData.length)*2*Math.PI-Math.PI/2;
+  const radius=42;
+  const x=50+radius*Math.cos(angle), y=50+radius*Math.sin(angle);
+  const div=document.createElement('div');
+  div.className='spoke';
+  div.style.left='calc('+x+'% - 44px)';
+  div.style.top='calc('+y+'% - 30px)';
+  div.innerHTML='<i class="'+s.icon+'"></i>'+s.label;
+  wheelWrap.appendChild(div);
+});
+let spokeIdx=0;
+setInterval(()=>{
+  document.querySelectorAll('.spoke').forEach(s=>s.classList.remove('active'));
+  document.querySelectorAll('.spoke')[spokeIdx].classList.add('active');
+  spokeIdx=(spokeIdx+1)%spokeData.length;
+},1400);
+
+/* ============ TOPICS DATA + RENDER ============ */
+const topics=[
+{icon:'fa-solid fa-laptop-code',tag:'Foundation',title:'Technical Skills',a:'#4cc9f0',b:'#8b6bff',
+ points:['Coding + DSA roz thoda-thoda','GitHub par apna kaam publicly build karo','Ek AI ya Data Science mini-project banao'],
+ example:'<b>Real example:</b> Jo student roz sirf 1 LeetCode problem solve karta hai, 6 mahine me 180 problems solve kar chuka hota hai — bina overwhelm hue.',
+ quote:'"Skill ek din me nahi banti... roz ke 1% se banti hai."',
+ take:'Perfection nahi, consistency chahiye.'},
+{icon:'fa-solid fa-comments',tag:'Confidence',title:'Communication Skills',a:'#8b6bff',b:'#ff6fb5',
+ points:['Interview me clearly apne projects explain karna','Presentation & public speaking practice karo','English fluency + confident body language'],
+ example:'<b>Real example:</b> Do students same skill rakhte hain, lekin jo apna kaam achhe se explain kar paata hai, wahi interview clear karta hai.',
+ quote:'"Knowledge tabhi kaam aati hai jab tum use bol paao."',
+ take:'Confidence practice se aata hai, talent se nahi.'},
+{icon:'fa-solid fa-people-group',tag:'Connections',title:'Networking',a:'#4cc9f0',b:'#5be0a8',
+ points:['LinkedIn pe active raho, apna kaam share karo','Hackathons & meetups attend karo','Seniors, teachers aur industry logon se judo'],
+ example:'<b>Real example:</b> Bahut se jobs referral se milti hain — post karne se pehle hi. Isliye network banate raho.',
+ quote:'"Tumhara network, tumhara net-worth hai."',
+ take:'Rishtay banao, sirf connections mat jodo.'},
+{icon:'fa-solid fa-video',tag:'Personal Brand',title:'Content Creation',a:'#ff6fb5',b:'#ffc164',
+ points:['Instagram/YouTube pe apni learning journey share karo','Chhote topics par LinkedIn posts likho','Ek simple portfolio website banao'],
+ example:'<b>Real example:</b> Jo student apna seekha hua kaam online share karta hai, recruiters use dhoondh lete hain — resume se pehle.',
+ quote:'"Sikhna important hai... sikhaya hua dikhana usse bhi important hai."',
+ take:'Tumhara online presence tumhara silent resume hai.'},
+{icon:'fa-solid fa-briefcase',tag:'Experience',title:'Internship',a:'#4cc9f0',b:'#8b6bff',
+ points:['Resume me projects & real skills highlight karo','Applications ko ek habit banao, event nahi','Har internship se seekho, salary se zyada experience dekho'],
+ example:'<b>Real example:</b> Ek chhota unpaid internship bhi resume me utni hi value add karta hai jitna ek achha project.',
+ quote:'"Internship marks nahi maangti... proof maangti hai."',
+ take:'Apply karna start karo, perfect resume ka wait mat karo.'},
+{icon:'fa-solid fa-graduation-cap',tag:'Memories',title:'College Life',a:'#5be0a8',b:'#4cc9f0',
+ points:['Friends, events, trips — sab enjoy karo','Hackathons ko fun ke saath lo, sirf pressure nahi','Fun aur focus dono ek saath chal sakte hain'],
+ example:'<b>Real example:</b> Sabse successful log bhi apne college friends aur memories ko utna hi value karte hain jitna apne career ko.',
+ quote:'"Ye 4 saal wapas nahi aayenge... jio bhi, banao bhi."',
+ take:'Balance ka matlab hai — dono jeena, koi ek nahi chhodna.'},
+{icon:'fa-solid fa-clock',tag:'Discipline',title:'Time Management',a:'#ffc164',b:'#ff6fb5',
+ points:['Daily routine me deep work slots rakho','Ek simple study plan banao aur follow karo','Digital detox aur proper sleep zaroor lo'],
+ example:'<b>Real example:</b> 2 hours ka focused deep work, 6 hours ke distracted "studying" se zyada result deta hai.',
+ quote:'"Busy hona alag hai... productive hona alag."',
+ take:'Time manage karo, khud ko nahi torto.'},
+{icon:'fa-solid fa-heart-pulse',tag:'Inner Strength',title:'Emotional Management',a:'#ff6fb5',b:'#8b6bff',
+ points:['Failure, rejection, breakup — inhe feel karo, dabao mat','Comparison aur placement pressure ko naam do, samjho','Trusted logon se ya professional se baat karne me hesitate mat karo'],
+ example:'<b>Real example:</b> Ek rejection ke baad rukna normal hai — lekin wahi ruk jaana option nahi hai. Feel karo, phir aage badho.',
+ quote:'"Rona weakness nahi... chup reh ke toot jaana weakness hai."',
+ take:'Emotions ko manage karna seekho, ignore karna nahi.'},
+{icon:'fa-solid fa-spa',tag:'Wellbeing',title:'Mental Health',a:'#5be0a8',b:'#ffc164',
+ points:['Roz meditation ya exercise ka 10-15 min','Healthy food aur proper neend','Positive environment aur self-respect maintain karo'],
+ example:'<b>Real example:</b> Jo students apni mental health ko priority dete hain, wahi long-term me sabse consistent perform karte hain.',
+ quote:'"Mind fit hoga to hi mehnat fit rahegi."',
+ take:'Health skip karoge, to skills bhi slow ho jayengi.'},
+{icon:'fa-solid fa-fingerprint',tag:'Identity',title:'Personal Branding',a:'#8b6bff',b:'#4cc9f0',
+ points:['Apna ek clear identity banao — kya represent karte ho','Consistent online presence rakho','Apni values aur strengths ko highlight karo'],
+ example:'<b>Real example:</b> "Wo student jo AI projects banata hai" — ye ek tag hi tumhari pehchaan bana sakta hai.',
+ quote:'"Log tumhe naam se nahi... tumhare kaam se yaad rakhte hain."',
+ take:'Apna brand khud likho, warna duniya likh degi.'},
+{icon:'fa-solid fa-piggy-bank',tag:'Smart Money',title:'Financial Awareness',a:'#ffc164',b:'#5be0a8',
+ points:['Chhoti saving se shuru karo','SIP aur basic investment samjho','Ek chhota emergency fund banao'],
+ example:'<b>Real example:</b> ₹500/month ki SIP bhi, jaldi shuru karne par, saalon me bada fark banati hai.',
+ quote:'"Paisa kamana skill hai... paisa sambhalna wisdom hai."',
+ take:'Jitni jaldi shuru karo, utna better.'},
+{icon:'fa-solid fa-road',tag:'Direction',title:'Career Growth',a:'#4cc9f0',b:'#ff6fb5',
+ points:['Apna ek clear roadmap banao','Continuous learning ko habit banao','Consistency ko talent se zyada trust karo'],
+ example:'<b>Real example:</b> Career ek sprint nahi, marathon hai — jo roz thoda chalte hain, wahi finish line tak pahunchte hain.',
+ quote:'"Tumhari speed important nahi... direction important hai."',
+ take:'Roadmap follow karo, shortcuts mat dhoondo.'}
+];
+const topicsGrid=document.getElementById('topicsGrid');
+topics.forEach((t,i)=>{
+  const card=document.createElement('div');
+  card.className='topic-card reveal';
+  card.style.setProperty('--card-a',t.a);
+  card.style.setProperty('--card-b',t.b);
+  card.innerHTML=`
+    <div class="topic-num">0${i+1} / ${topics.length}</div>
+    <div class="topic-icon"><i class="${t.icon}"></i></div>
+    <span class="topic-tag">${t.tag}</span>
+    <h3>${t.title}</h3>
+    <ul class="topic-points">${t.points.map(p=>'<li>'+p+'</li>').join('')}</ul>
+    <div class="topic-example">${t.example}</div>
+    <p class="topic-quote">${t.quote}</p>
+    <div class="topic-take"><i class="fa-solid fa-key"></i>${t.take}</div>`;
+  topicsGrid.appendChild(card);
+  io.observe(card);
+});
+
+/* ============ TIMELINE ============ */
+const timelineData=[
+  {time:'6:00 AM',title:'Wake Up + Freshen Up',desc:'Phone se door, thoda stretch ya walk.'},
+  {time:'7:00 AM',title:'Deep Work / Coding',desc:'Sabse fresh mind me hardest kaam karo.'},
+  {time:'9:00 AM',title:'College',desc:'Classes attend karo, connections banao.'},
+  {time:'4:00 PM',title:'Projects / Skill Building',desc:'Ek naya concept ya feature seekho.'},
+  {time:'6:00 PM',title:'Gym / Sport',desc:'Body move karo, stress release karo.'},
+  {time:'7:30 PM',title:'Friends & Family Time',desc:'Real connections, screen free.'},
+  {time:'9:30 PM',title:'Light Review',desc:'Din ka kaam revise karo, kal plan karo.'},
+  {time:'11:00 PM',title:'Sleep',desc:'7-8 hours neend non-negotiable hai.'},
+  {time:'Weekend',title:'Rest, Trips & Fun',desc:'Recharge karo — ye bhi productivity hai.'}
+];
+const timelineWrap=document.getElementById('timelineWrap');
+timelineData.forEach(t=>{
+  const div=document.createElement('div');
+  div.className='t-item reveal';
+  div.innerHTML=`<div class="t-dot"><i class="fa-solid fa-circle" style="font-size:6px;"></i></div>
+  <div class="t-card"><div class="t-time">${t.time}</div><h4>${t.title}</h4><p>${t.desc}</p></div>`;
+  timelineWrap.appendChild(div);
+  io.observe(div);
+});
+
+/* ============ RECOVERY STEPS ============ */
+const recovery=[
+  {h:'Pehle Ruko Aur Feel Karo',p:'Emotion ko dabao mat. Rona hai to ro lo, gussa hai to accept karo. Feel karna weakness nahi hai.'},
+  {h:'Kisi Se Baat Karo',p:'Ek trusted dost, family member, ya counselor se baat karo. Akela struggle karna zaroori nahi hai.'},
+  {h:'Situation Ko Alag Karo Khud Se',p:'"Maine ye interview clear nahi kiya" alag hai "Main kaabil nahi hoon" se. Situation temporary hai, tum permanent ho.'},
+  {h:'Ek Chhota Action Lo',p:'Bada plan mat banao. Bas aaj ek chhota kaam karo — resume update, ek DSA problem, ek walk.'},
+  {h:'Apna Progress Yaad Karo',p:'Jitna tumne pichle 1 saal me seekha hai, wo likh ke dekho. Tum jaha the wahan se kaafi aage ho.'},
+  {h:'Professional Help Lene Se Mat Ghabrao',p:'Agar stress lambe time se hai, ek counselor ya therapist se baat karna bilkul normal aur smart step hai.'}
+];
+const recWrap=document.getElementById('recoverySteps');
+recovery.forEach(r=>{
+  const div=document.createElement('div');
+  div.className='recovery-step reveal';
+  div.innerHTML=`<h4>${r.h}</h4><p>${r.p}</p>`;
+  recWrap.appendChild(div);
+  io.observe(div);
+});
+
+/* ============ QUOTES SLIDER ============ */
+const quotes=[
+"Tumhari speed important nahi... direction important hai.",
+"Placement late ho sakti hai... potential kabhi late nahi hota.",
+"Khud ko harana band karo... duniya khud haar jayegi.",
+"Life sirf placement ka naam nahi hai.",
+"Tumhari value sirf CGPA decide nahi karti.",
+"Comparison chhodo... consistency pakdo.",
+"Ek rejection tumhari story ka end nahi... sirf next chapter ki beginning hai.",
+"Jo aaj mushkil lag raha hai... wahi kal tumhari strength banega.",
+"Backlog ek number hai... tumhara future nahi.",
+"Har senior kabhi junior tha jo confused tha — tum akele nahi ho.",
+"Naya seekhna darr nahi... growth hai.",
+"Coding slow hai to koi baat nahi — rukna mat.",
+"Doosron ki highlight reel se apni behind-the-scenes compare mat karo.",
+"Ek achha resume nahi... ek achhi habit tumhe aage le jaayegi.",
+"Tumhara pace tumhara hai — kisi aur ka nahi.",
+"Interview reject hua matlab galat fit tha, galat insaan nahi.",
+"Consistency chhoti lagti hai... par sabse bada weapon hai.",
+"Aaj ka 1% better, kal ka 100x result banata hai.",
+"Networking matlab sirf demand karna nahi... value dena bhi hai.",
+"Har project chhoti win hai — usko celebrate karo.",
+"Doubt aayega... process chhodna mat.",
+"Break lena laziness nahi, recovery hai.",
+"Tumhari journey unique hai — isse kisi se compare mat karo.",
+"Jo aaj practice kar rahe ho, wahi kal ka confidence banega.",
+"Failure feedback hai, verdict nahi.",
+"Har bada coder kabhi 'Hello World' se hi shuru hua tha.",
+"Stress signal hai ki tum kuch important kar rahe ho.",
+"Apni family ko sirf result nahi... apna effort bhi dikhao.",
+"Tumhare paas abhi bhi time hai — bas shuru karo.",
+"Ek din ki mehnat kam lage... par 365 din badal deti hai."
+];
+const qSlider=document.getElementById('quoteSlider'),qDots=document.getElementById('quoteDots');
+quotes.forEach((q,i)=>{
+  const s=document.createElement('div');s.className='quote-slide'+(i===0?' active':'');
+  s.innerHTML=`<p><span class="qmark">"</span>${q}</p>`;
+  qSlider.appendChild(s);
+  const d=document.createElement('div');d.className='qdot'+(i===0?' active':'');
+  qDots.appendChild(d);
+});
+let qi=0;
+setInterval(()=>{
+  document.querySelectorAll('.quote-slide')[qi].classList.remove('active');
+  document.querySelectorAll('.qdot')[qi].classList.remove('active');
+  qi=(qi+1)%quotes.length;
+  document.querySelectorAll('.quote-slide')[qi].classList.add('active');
+  document.querySelectorAll('.qdot')[qi].classList.add('active');
+},4000);
+
+/* ============ HABITS ============ */
+const habitsData={
+  daily:{
+    dos:['Roz 1 coding problem solve karo','10 min meditation ya exercise karo','Ek naye topic ka short note likho'],
+    donts:['Poora din bina break scroll mat karo','Neend skip mat karo','Khud ko doosron se compare mat karo']
+  },
+  weekly:{
+    dos:['1 mini project ya feature complete karo','1 LinkedIn/Instagram post share karo','Friends/family ke saath quality time do'],
+    donts:['Pura weekend sirf phone pe mat gujaro','Saari deadlines Sunday raat pe mat rakho','Feedback lena avoid mat karo']
+  },
+  monthly:{
+    dos:['Apna resume/portfolio update karo','1 naya skill ya tool try karo','Apna progress review karo — kya kaam kiya, kya nahi'],
+    donts:['Ek hi comfort zone me stuck mat raho','Financial planning ignore mat karo','Health checkup skip mat karo']
+  }
+};
+const habitsPanels=document.getElementById('habitsPanels');
+Object.keys(habitsData).forEach((key,i)=>{
+  const panel=document.createElement('div');
+  panel.className='habit-panel'+(i===0?' active':'');
+  panel.dataset.panel=key;
+  panel.innerHTML=`
+    <div class="habit-col dos"><h4><i class="fa-solid fa-circle-check"></i> Do's</h4><ul>${habitsData[key].dos.map(d=>'<li>'+d+'</li>').join('')}</ul></div>
+    <div class="habit-col donts"><h4><i class="fa-solid fa-circle-xmark"></i> Don'ts</h4><ul>${habitsData[key].donts.map(d=>'<li>'+d+'</li>').join('')}</ul></div>`;
+  habitsPanels.appendChild(panel);
+});
+document.querySelectorAll('.habit-tab').forEach(tab=>{
+  tab.addEventListener('click',()=>{
+    document.querySelectorAll('.habit-tab').forEach(t=>t.classList.remove('active'));
+    tab.classList.add('active');
+    document.querySelectorAll('.habit-panel').forEach(p=>p.classList.toggle('active',p.dataset.panel===tab.dataset.tab));
+  });
+});
+
+/* ============ FORM VALIDATION ============ */
+const form=document.getElementById('queryForm');
+form.addEventListener('submit',e=>{
+  e.preventDefault();
+  let valid=true;
+  const checks=[
+    {id:'fname',test:v=>v.trim().length>1},
+    {id:'femail',test:v=>/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v)},
+    {id:'fcollege',test:v=>v.trim().length>1},
+    {id:'fmsg',test:v=>v.trim().length>4}
+  ];
+  checks.forEach(c=>{
+    const el=document.getElementById(c.id);
+    const ok=c.test(el.value);
+    el.closest('.field').classList.toggle('invalid',!ok);
+    if(!ok)valid=false;
+  });
+  if(!document.getElementById('fgoal').value){valid=false;document.getElementById('fgoal').closest('.field').style.borderColor='var(--pink)';}
+  if(valid){
+    form.querySelectorAll('.field, button[type=submit]').forEach(el=>el.style.display='none');
+    document.getElementById('formSuccess').classList.add('show');
+  }
+});
+document.querySelectorAll('.field select').forEach(s=>{
+  s.addEventListener('change',()=>s.closest('.field').classList.toggle('filled',!!s.value));
+});
+
+/* ============ BUTTON RIPPLE ============ */
+document.querySelectorAll('.btn-ripple').forEach(btn=>{
+  btn.addEventListener('click',function(e){
+    const rect=this.getBoundingClientRect();
+    const ripple=document.createElement('span');
+    ripple.className='ripple';
+    ripple.style.left=(e.clientX-rect.left)+'px';
+    ripple.style.top=(e.clientY-rect.top)+'px';
+    ripple.style.width=ripple.style.height='16px';
+    this.appendChild(ripple);
+    setTimeout(()=>ripple.remove(),650);
+  });
+});
+</script>
+</body>
+</html>
